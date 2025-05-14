@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>חתונה ראובן וגיל</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="top-right">
+    <a href="/admin" class="admin-button">Admin</a>
+</div>
+
+<div class="container">
+    <br>
+    <a href="/french" class="lang-button">francais</a>
+    <br>
+    <div id="countdown" class="countdown">
+        <div class="time-unit">
+            <div class="bubble" id="days">
+                <span class="count-value">00</span>
+                <div class="label">ימים</div>
+            </div>
+        </div>
+        <div class="time-unit">
+            <div class="bubble" id="hours">
+                <span class="count-value">00</span>
+                <div class="label">שעות</div>
+            </div>
+        </div>
+        <div class="time-unit">
+            <div class="bubble" id="minutes">
+                <span class="count-value">00</span>
+                <div class="label">דקות</div>
+            </div>
+        </div>
+        <div class="time-unit">
+            <div class="bubble" id="seconds">
+                <span class="count-value">00</span>
+                <div class="label">שניות</div>
+            </div>
+        </div>
+    </div>
+    <h2 dir="rtl"> לחתונה של גיל וראובן!</h2>
+    <br><br><br><br>
+    <form method="post">
+        <label for="nom" id="label-nom">שם מלא:</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="nb_invites" id="label-nb-invites">מספר מוזמנים:</label>
+        <input type="number" id="nb_invites" name="nb_invites" min="1" required>
+
+        <button type="submit">שליחה</button>
+    </form>
+
+</div>
+
+<script>
+    const targetDate = new Date("2025-11-02T19:00:00").getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance <= 0) {
+            document.getElementById("countdown").innerHTML = "🎉 C’est le grand jour !";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((distance / (1000 * 60)) % 60);
+        const seconds = Math.floor((distance / 1000) % 60);
+
+        document.getElementById("days").querySelector(".count-value").innerHTML = days;
+        document.getElementById("hours").querySelector(".count-value").innerHTML = hours;
+        document.getElementById("minutes").querySelector(".count-value").innerHTML = minutes;
+        document.getElementById("seconds").querySelector(".count-value").innerHTML = seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+</script>
+</body>
+</html>

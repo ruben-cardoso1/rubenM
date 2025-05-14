@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>רשימת מוזמנים</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body class="admin-page">
+    <div class="admin-container">
+        <!-- Bouton logout positionné en haut à droite -->
+        <a href="/logout" class="logout-link">להתנתק</a>
+
+        <div class="admin-header">
+            <h1>👥 רשימת מוזמנים חתונה ראובן וגיל</h1>
+        </div>
+        <br>
+        <!-- Bouton d'export -->
+        <button class="export-btn" onclick="exportTableToCSV('invites.csv')">📁 הורדת קובץ מוזמנים</button>
+
+        <!-- Champ de recherche -->
+        <input type="text" dir="rtl" id="searchInput" placeholder="🔍 חיפוש שם..." class="search-box" onkeyup="filterTable()">
+
+
+        <div class="table-wrapper">
+            <table class="admin-table" id="guestsTable">
+                <thead>
+                    <tr>
+                        <th>שם</th>
+                        <th>מספר מוזמנים</th>
+                        <th>שעה</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for invite in invites %}
+                    <tr>
+                        <td>{{ invite['Nom'] }}</td>
+                        <td>{{ invite["Nombre d'invités"] }}</td>
+                        <td>{{ invite["Timestamp"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- JS: filtre + export CSV -->
+    <script>
+        function filterTable() {
+            const input = document.getElementById("searchInput");
+            const filter = input.value.toLowerCase();
+            const rows = document.querySelectorAll("#guestsTable tbody tr");
+
+            rows.forEach(row => {
+                const nameCell = row.querySelector("td");
+                const name = nameCell.textContent.toLowerCase();
+                row.style.display = name.includes(filter) ? "" : "none";
+            });
+        }
+
+        function exportTableToCSV(filename) {
+            const rows = document.querySelectorAll("table tr");
+            let csv = [];
+            rows.forEach(row => {
+                const cols = row.querySelectorAll("td, th");
+                let rowData = Array.from(cols).map(cell => `"${cell.textContent}"`);
+                csv.push(rowData.join(","));
+            });
+            const blob = new Blob([csv.join("\n")], { type: "text/csv" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+        }
+    </script>
+</body>
+</html>

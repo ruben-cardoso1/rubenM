@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl"> <!-- 'he' pour hébreu et 'dir="rtl"' pour droite à gauche -->
+<head>
+    <meta charset="UTF-8">
+    <title>התחברות</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>התחברות משפחה</h1> <!-- Titre en hébreu pour "Connexion" -->
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+        <label for="username">שם משתמש:</label> <!-- "Nom d'utilisateur" en hébreu -->
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">סיסמה:</label> <!-- "Mot de passe" en hébreu -->
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">התחבר</button> <!-- "Se connecter" en hébreu -->
+    </form>
+</div>
+</body>
+</html>
